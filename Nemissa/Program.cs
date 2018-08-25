@@ -12,23 +12,22 @@ namespace Nemissa
     {
         static void Main(string[] args)
         {
+            EVE eveClass = new EVE();
             switch (args[0])
             {
                 case "-po":
                     switch (Path.GetExtension(args[1]).ToLower())
                     {
                         case ".eve":
-                            using (BinaryReader br = new BinaryReader(File.OpenRead(args[1])))
-                            {
-                                File.WriteAllText(args[1] + ".xml", PO.Placeholder);
-                            }
-                            break;
+                                eveClass.Initialize(args[1]);
+                                File.WriteAllText(args[1] + ".po", eveClass.Read());
+                             break;
                         default:
                             try
                             {
                                 foreach (var filefound in Directory.GetFiles(args[1], "*.eve", SearchOption.AllDirectories))
                                 {
-                                    File.WriteAllText(filefound + ".xml", PO.Placeholder);
+                                    //File.WriteAllText(filefound + ".po", PO.Placeholder);
                                 }
                             }
                             catch (Exception ex)
