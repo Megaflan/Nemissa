@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace Nemissa
+﻿namespace Nemissa
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+
     class Program
     {
         static void Main(string[] args)
         {
             EVE eveClass = new EVE();
-            PO PO = new PO();
             switch (args[0])
             {
                 case "-po":
@@ -36,12 +35,14 @@ namespace Nemissa
                                 Console.WriteLine(ex);
                                 Console.ReadLine();
                             }
-                            //recursive search
+                            ////recursive search
                             break;
+
                     }
                     break;
                 case "-eve":
                     break;
+
             }
         }
 
