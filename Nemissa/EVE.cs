@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Nemissa
+﻿namespace Nemissa
 {
-    class EVE
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    public class EVE
     {
-        class Header
+        public class Header
         {
             public ushort const1;
             public ushort const2;
@@ -86,7 +86,7 @@ namespace Nemissa
             }
         }
 
-        public void Read(string file)
+        private void Read(string file)
         {
             PO PO = new PO();
             for (int i = 0; i < entryCount; i++)

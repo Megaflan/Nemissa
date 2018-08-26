@@ -8,9 +8,9 @@
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             EVE eveClass = new EVE();
             switch (args[0])
@@ -37,14 +37,12 @@
                             }
                             ////recursive search
                             break;
-
                     }
+
                     break;
                 case "-eve":
                     break;
-
             }
         }
-
     }
 }

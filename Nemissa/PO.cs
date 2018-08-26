@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Yarhl.IO;
-using Yarhl.Media.Text;
-using Yarhl.FileFormat;
-using System.Threading.Tasks;
-
-namespace Nemissa
+﻿namespace Nemissa
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Yarhl.FileFormat;
+    using Yarhl.IO;
+    using Yarhl.Media.Text;
+
     class PO
     {
         Po poYarhl = new Po
