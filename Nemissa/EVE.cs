@@ -36,7 +36,7 @@ namespace Nemissa
                entryCount = (header.textOffset - header.pointerOffset) / sizeof(short);
            }
            ParsePointer();
-           Read();
+           Read(file);
         }
 
         private void ParsePointer()
@@ -47,8 +47,9 @@ namespace Nemissa
                br.BaseStream.Position = header.pointerOffset;
                for (int i = 0; i < entryCount; i++)
                {
-                   var textP = br.ReadInt16();
-                   if (textP != 0 && i != 0) pointer.Add(br.ReadInt16());
+                    var textP = br.ReadInt16();
+                    if (textP == 0 && i == 0) pointer.Add(textP);
+                    if (textP != 0 && i != 0) pointer.Add(textP);
                }
            }
            entryCount = pointer.Count;
@@ -60,7 +61,7 @@ namespace Nemissa
             for (var i = 0; i < toParse.Length; i++)
             {
                 var byte0 = toParse[i];
-                if (byte0 == 0xFF || byte0 == 0x0B || byte0 == 0x0C || byte0 == 0xC7)
+                if (byte0 == 0xFF || byte0 == 0x0B || byte0 == 0x0C || byte0 == 0x0E || byte0 == 0x11 || byte0 == 0xC5 || byte0 == 0xC7 || byte0 == 0xCA || byte0 == 0xD0)
                 {
                     var byte1 = toParse[i + 1];
                     i++;
@@ -85,16 +86,16 @@ namespace Nemissa
             }
         }
 
-        public string Read()
+        public void Read(string file)
         {
-            string result = "";
+            PO PO = new PO();
             for (int i = 0; i < entryCount; i++)
             {
                 var size = (i + 1 == entryCount) ? fstream.Length - (pointer[i] + header.textOffset) : pointer[i + 1] - pointer[i];
                 var entry = ReadEntry(i, (int)size);
-                result += entry + "\n";
+                PO.POEx(entry + "\n", i);
             }
-            return result;
+            //PO.PoWrite(file);
         }
     }
 }

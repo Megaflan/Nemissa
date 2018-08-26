@@ -13,15 +13,15 @@ namespace Nemissa
         static void Main(string[] args)
         {
             EVE eveClass = new EVE();
+            PO PO = new PO();
             switch (args[0])
             {
                 case "-po":
                     switch (Path.GetExtension(args[1]).ToLower())
                     {
                         case ".eve":
-                                eveClass.Initialize(args[1]);
-                                File.WriteAllText(args[1] + ".po", eveClass.Read());
-                             break;
+                            eveClass.Initialize(args[1]);
+                            break;
                         default:
                             try
                             {
