@@ -37,5 +37,5 @@ using Mono.Addins;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 // Mono.Addins
-[assembly: Addin("Nemissa", "1.0")]
+[assembly: Addin("Nemissa", "0.1")]
 [assembly: AddinDependency("Yarhl", "1.0")]

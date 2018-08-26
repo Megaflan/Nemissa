@@ -27,7 +27,7 @@ namespace Nemissa
                             {
                                 foreach (var filefound in Directory.GetFiles(args[1], "*.eve", SearchOption.AllDirectories))
                                 {
-                                    //File.WriteAllText(filefound + ".po", PO.Placeholder);
+                                    eveClass.Initialize(args[1]);
                                 }
                             }
                             catch (Exception ex)

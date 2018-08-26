@@ -93,9 +93,9 @@ namespace Nemissa
             {
                 var size = (i + 1 == entryCount) ? fstream.Length - (pointer[i] + header.textOffset) : pointer[i + 1] - pointer[i];
                 var entry = ReadEntry(i, (int)size);
-                PO.POEx(entry + "\n", i);
+                PO.POEx(entry, i);
             }
-            //PO.PoWrite(file);
+            PO.PoWrite(file);
         }
     }
 }

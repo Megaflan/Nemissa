@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Addins">
+    <Reference Include="Mono.Addins, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Mono.Addins.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -43,10 +44,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Yarhl">
+    <Reference Include="Yarhl, Version=1.0.0.35660, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Yarhl.dll</HintPath>
     </Reference>
-    <Reference Include="Yarhl.Media">
+    <Reference Include="Yarhl.Media, Version=1.0.0.35660, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Yarhl.Media.dll</HintPath>
     </Reference>
   </ItemGroup>
