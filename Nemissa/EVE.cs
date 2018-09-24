@@ -18,41 +18,40 @@
         }
 
         private Header header = new Header();
+        private List<ushort> pointer;
         private int entryCount;
-        private List<short> pointer;
-        
 
         System.Text.Encoding SJIS = System.Text.Encoding.GetEncoding(932);
         private FileStream fstream;
 
         public void Initialize(string file)
         {
-           using (var br = new BinaryReader(fstream = new FileStream(file, FileMode.Open), SJIS, true))
-           {
-               header.const1 = br.ReadUInt16();
-               header.const2 = br.ReadUInt16();
-               header.pointerOffset = br.ReadUInt16();
-               header.textOffset = br.ReadUInt16();
-               entryCount = (header.textOffset - header.pointerOffset) / sizeof(short);
-           }
-           ParsePointer();
-           Read(file);
+            using (var br = new BinaryReader(fstream = new FileStream(file, FileMode.Open), SJIS, true))
+            {
+                    header.const1 = br.ReadUInt16();
+                    header.const2 = br.ReadUInt16();
+                    header.pointerOffset = br.ReadUInt16();
+                    header.textOffset = br.ReadUInt16();
+                    entryCount = (header.textOffset - header.pointerOffset) / sizeof(short);
+                    ParsePointer();
+                    Read(file);
+            }
         }
 
         private void ParsePointer()
         {
-           pointer = new List<short>();
-           using (var br = new BinaryReader(fstream, SJIS, true))
-           {
-               br.BaseStream.Position = header.pointerOffset;
-               for (int i = 0; i < entryCount; i++)
-               {
-                    var textP = br.ReadInt16();
-                    if (textP == 0 && i == 0) pointer.Add(textP);
-                    if (textP != 0 && i != 0) pointer.Add(textP);
-               }
-           }
-           entryCount = pointer.Count;
+            pointer = new List<ushort>();
+            using (var br = new BinaryReader(fstream, SJIS, true))
+            {
+                br.BaseStream.Position = header.pointerOffset;
+                for (int j = 0; j < entryCount; j++)
+                {
+                    var textP = br.ReadUInt16();
+                    if (textP == 0 && j == 0) pointer.Add(textP);
+                    if (textP != 0 && j != 0) pointer.Add(textP);
+                }
+            }
+            entryCount = pointer.Count;           
         }
 
         private string ParseTextEntry(byte[] toParse)
@@ -93,9 +92,9 @@
             {
                 var size = (i + 1 == entryCount) ? fstream.Length - (pointer[i] + header.textOffset) : pointer[i + 1] - pointer[i];
                 var entry = ReadEntry(i, (int)size);
-                PO.POEx(entry, i);
+                PO.POExport(entry, i);
             }
-            PO.PoWrite(file);
+            PO.POWrite(file);
         }
     }
 }
