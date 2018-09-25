@@ -31,40 +31,59 @@
         }
 
         private Header header = new Header();
-
-
-        /*private void Dict(string toPO)
+        
+        private string Dict(string toPO)
         {
-            Dictionary<string, string> pairs = new Dictionary<string, string>
+            string result = "";
+            Dictionary<char, char> dic = new Dictionary<char, char>
             {
-                ["{FF01}"] = "\n",
-
                 //Spanish localization
-                ["\u30F3"] = "ñ", //ン
-                ["\u30D9"] = "ä", //ベ
-                ["\u30E9"] = "á", //ラ　
-                ["\u30DA"] = "ï", //ペ
-                ["\u30EA"] = "í", //リ
-                ["\u30DB"] = "ü", //ホ
-                ["\u30EB"] = "ú", //ル
-                ["\u30DC"] = "ë", //ボ
-                ["\u30EC"] = "é", //レ
-                ["\u30DD"] = "ö", //ポ
-                ["\u30ED"] = "ó", //ロ
-                ["\u30A1"] = "Ä", //ァ
-                ["\u30A2"] = "Á", //ア
-                ["\u30A3"] = "Ï", //ィ
-                ["\u30A4"] = "Í", //イ
-                ["\u30A5"] = "Ü", //ゥ
-                ["\u30A6"] = "Ú", //ウ
-                ["\u30A7"] = "Ë", //ェ
-                ["\u30A8"] = "É", //エ
-                ["\u30A9"] = "Ö", //ォ
-                ["\u30AA"] = "Ó", //オ
-                ["\u30D1"] = "¡", //パ
-                ["\u30D7"] = "¿", //プ
+                { '\u00F1', '\u30F3' }, //ン from ñ
+                { '\u00E4', '\u30D9' }, //ベ from ä
+                { '\u00E1', '\u30E9' }, //ラ from á
+                { '\u00EF', '\u30DA' }, //ペ from ï
+                { '\u00ED', '\u30EA' }, //リ from í
+                { '\u00FC', '\u30DB' }, //ホ from ü
+                { '\u00FA', '\u30EB' }, //ル from ú
+                { '\u00EB', '\u30DC' }, //ボ from ë
+                { '\u00E9', '\u30EC' }, //レ from é
+                { '\u00F6', '\u30DD' }, //ポ from ö
+                { '\u00F3', '\u30ED' }, //ロ from ó
+                { '\u00C4', '\u30A1' }, //ァ from Ä
+                { '\u00C1', '\u30A2' }, //ア from Á
+                { '\u00CF', '\u30A3' }, //ィ from Ï
+                { '\u00CD', '\u30A4' }, //イ from Í
+                { '\u00DC', '\u30A5' }, //ゥ from Ü
+                { '\u00DA', '\u30A6' }, //ウ from Ú
+                { '\u00CB', '\u30A7' }, //ェ from Ë
+                { '\u00C9', '\u30A8' }, //エ from É
+                { '\u00D6', '\u30A9' }, //ォ from Ö
+                { '\u00D3', '\u30AA' }, //オ from Ó
+                { '\u00A1', '\u30D1' }, //パ from ¡
+                { '\u00BF', '\u30D7' }, //プ from ¿
             };
-        }*/
+            if (toPO.Contains("{FF01}"))
+            {
+                toPO = toPO.Replace("{FF01}", "\n");
+            }
+            if (toPO.Contains("\n"))
+            {
+                toPO = toPO.Replace("\n", "{FF01}");
+            }
+            char[] dictArray = toPO.ToCharArray();
+            foreach (char c in dictArray)
+            {
+                if (dic.ContainsKey(c)) //If the dic has a char available in the string, replace it
+                {
+                    result += dic[c];
+                }
+                else //If not, just construct the string like normal
+                {
+                    result += c;
+                }
+            }
+            return result;
+        }
 
         private byte[] CCI(string toByte) //ControlCodeInterpreter
         {
@@ -101,7 +120,7 @@
 
         public void POExport(string toPO, int i)
         {
-            poYarhl.Add(new PoEntry(toPO) { Context = i.ToString() });
+            poYarhl.Add(new PoEntry(Dict(toPO)) { Context = i.ToString() });
         }
 
         public void POWrite(string file)
@@ -140,14 +159,14 @@
 
                 for (int i = 0; i < header.entryCount - 1; i++)
                 {
-                    pointer = CCI(poInstance.Entries[i].Translated).Length + pointer;
+                    pointer = CCI(Dict(poInstance.Entries[i].Translated)).Length + pointer;
                     bw.Write((ushort)pointer);
                 }
 
                 bw.BaseStream.Position = header.textOffset;
                 foreach (var entry in poInstance.Entries)
                 {
-                    bw.Write(CCI(entry.Translated));
+                    bw.Write(CCI(Dict(entry.Translated)));
                 }
                 fs.SetLength(bw.BaseStream.Position);
             }
