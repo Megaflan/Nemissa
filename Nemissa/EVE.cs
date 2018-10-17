@@ -60,7 +60,9 @@
             for (var i = 0; i < toParse.Length; i++)
             {
                 var byte0 = toParse[i];
-                if (byte0 == 0xFF || byte0 == 0x0B || byte0 == 0x0C || byte0 == 0x0E || byte0 == 0x11 || byte0 == 0xC5 || byte0 == 0xC7 || byte0 == 0xCA || byte0 == 0xD0)
+                if (byte0 == 0xFF || byte0 == 0x00 || byte0 == 0x00 || byte0 == 0x01 || byte0 == 0x02 || byte0 == 0x03 || byte0 == 0x04 || byte0 == 0x05 || byte0 == 0x06 || byte0 == 0x07 ||
+                    byte0 == 0x08 || byte0 == 0x09 || byte0 == 0x0A || byte0 == 0x0B || byte0 == 0x0C || byte0 == 0x0C || byte0 == 0x0D || byte0 == 0x0E || byte0 == 0x0F || byte0 == 0x10 ||
+                    byte0 == 0x11 || byte0 == 0x12 || byte0 == 0x13 || byte0 == 0xC5 || byte0 == 0xC7 || byte0 == 0xCA || byte0 == 0xD0)
                 {
                     var byte1 = toParse[i + 1];
                     i++;

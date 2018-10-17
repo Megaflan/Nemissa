@@ -99,7 +99,9 @@
                     byte[] chrArray1 = { strArray[i + 3], strArray[i + 4] };
                     string chars0 = Encoding.UTF8.GetString(chrArray0);
                     string chars1 = Encoding.UTF8.GetString(chrArray1);
-                    if (chars0 == "FF" || chars0 == "0B" || chars0 == "0C" || chars0 == "0E" || chars0 == "11" || chars0 == "C5" || chars0 == "C7" || chars0 == "CA" || chars0 == "D0")
+                    if (chars0 == "FF" || chars0 == "00" || chars0 == "01" || chars0 == "02" || chars0 == "03" || chars0 == "04" || chars0 == "05" || chars0 == "06" || chars0 == "07" ||
+                        chars0 == "08" || chars0 == "09" || chars0 == "10" || chars0 == "11" || chars0 == "12" || chars0 == "13" || chars0 == "0A" || chars0 == "0B" || chars0 == "0C" || 
+                        chars0 == "0D" || chars0 == "0E" || chars0 == "0F" || chars0 == "C5" || chars0 == "C7" || chars0 == "CA" || chars0 == "D0")
                     {
                         var byte0 = Convert.ToByte("0x" + chars0, 16);
                         var byte1 = Convert.ToByte("0x" + chars1, 16);
@@ -159,14 +161,14 @@
 
                 for (int i = 0; i < header.entryCount - 1; i++)
                 {
-                    pointer = CCI(Dict(poInstance.Entries[i].Translated)).Length + pointer;
+                    pointer = CCI(Dict(poInstance.Entries[i].Text)).Length + pointer;
                     bw.Write((ushort)pointer);
                 }
 
                 bw.BaseStream.Position = header.textOffset;
                 foreach (var entry in poInstance.Entries)
                 {
-                    bw.Write(CCI(Dict(entry.Translated)));
+                    bw.Write(CCI(Dict(entry.Text)));
                 }
                 fs.SetLength(bw.BaseStream.Position);
             }
