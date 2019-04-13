@@ -97,10 +97,11 @@
                     if (chars0 == "FF" || chars0 == "00" || chars0 == "01" || chars0 == "02" || chars0 == "03" || chars0 == "04" || chars0 == "05" || chars0 == "06" || chars0 == "07" ||
                         chars0 == "08" || chars0 == "09" || chars0 == "10" || chars0 == "11" || chars0 == "12" || chars0 == "13" || chars0 == "0A" || chars0 == "0B" || chars0 == "0C" || 
                         chars0 == "0D" || chars0 == "0E" || chars0 == "0F" || chars0 == "C2" || chars0 == "C3" || chars0 == "C4" || chars0 == "C5" || chars0 == "C6" || chars0 == "C7" ||
-                        chars0 == "C8" || chars0 == "C9" || chars0 == "CA" || chars0 == "D0" || chars0 == "D1" || chars0 == "D2" || chars0 == "D3" || chars0 == "D4" || chars0 == "D5" ||
-                        chars0 == "D6" || chars0 == "D7" || chars0 == "D8" || chars0 == "D9" || chars0 == "DA" || chars0 == "DB" || chars0 == "DC" || chars0 == "DD" || chars0 == "DE" ||
-                        chars0 == "DF" || chars0 == "E0" || chars0 == "E1" || chars0 == "E2" || chars0 == "E3" || chars0 == "E4" || chars0 == "E5" || chars0 == "E6" || chars0 == "E7" ||
-                        chars0 == "E8" || chars0 == "E9" || chars0 == "EA" || chars0 == "EB" || chars0 == "EC" || chars0 == "ED" || chars0 == "EE" || chars0 == "EF")
+                        chars0 == "C8" || chars0 == "C9" || chars0 == "CA" || chars0 == "CB" || chars0 == "D0" || chars0 == "D1" || chars0 == "D2" || chars0 == "D3" || chars0 == "D4" ||
+                        chars0 == "D5" || chars0 == "D6" || chars0 == "D7" || chars0 == "D8" || chars0 == "D9" || chars0 == "DA" || chars0 == "DB" || chars0 == "DC" || chars0 == "DD" ||
+                        chars0 == "DE" || chars0 == "DF" || chars0 == "E0" || chars0 == "E1" || chars0 == "E2" || chars0 == "E3" || chars0 == "E4" || chars0 == "E5" || chars0 == "E6" ||
+                        chars0 == "E7" || chars0 == "E8" || chars0 == "E9" || chars0 == "EA" || chars0 == "EB" || chars0 == "EC" || chars0 == "ED" || chars0 == "EE" || chars0 == "EF" ||
+                        chars0 == "CC" || chars0 == "CD" || chars0 == "CE" || chars0 == "CF")
                     {
                         var byte0 = Convert.ToByte("0x" + chars0, 16);
                         var byte1 = Convert.ToByte("0x" + chars1, 16);
