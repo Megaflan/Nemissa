@@ -62,10 +62,20 @@
                 { "{C7B8}", "]" },
                 { "{FF19}", "<BC>" },
                 { "{FF16}", "<WC>" },
-                { "{FF03}{FF02}", "<NT>\n" },
+                { "{FF03}{FF02}", "<NT>" },
                 { "{FF81}", "<NAME>" },
                 { "{FF82}", "<SUBNAME>" },
                 { "{FF00}", "<END>" },
+                //Reverse
+                { "\n", "{FF01}" },
+                { "[", "{C7B7}" },
+                { "]", "{C7B8}" },
+                { "<BC>", "{FF19}" },
+                { "<WC>", "{FF16}" },
+                { "<NT>", "{FF03}{FF02}" },
+                { "<NAME>", "{FF81}" },
+                { "<SUBNAME>", "{FF82}" },
+                { "<END>", "{FF00}" },
             };
             char[] dictArray = toPO.ToCharArray();
             foreach (char c in dictArray)
