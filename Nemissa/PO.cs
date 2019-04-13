@@ -32,7 +32,7 @@
 
         private Header header = new Header();
         
-        private string Dict(string toPO)
+        private string Dict(string toPO, bool reverse)
         {
             string result = "";
             Dictionary<int, int> dic = new Dictionary<int, int>
@@ -54,6 +54,26 @@
                 { 0x00A1, 0xEDEE }, //¡
                 { 0x00BF, 0xEDEF }, //¿
             };
+
+            Dictionary<string, string> dicR = new Dictionary<string, string>
+            {
+                //Spanish localization
+                { "{EDEC}", "ñ" }, //ñ
+                { "{EDED}", "Ñ" }, //Ñ
+                { "{EDE1}", "á" }, //á
+                { "{EDE3}", "í" }, //í
+                { "{EDEB}", "ü" }, //ü
+                { "{EDE5}", "ú" }, //ú
+                { "{EDE7}", "é" }, //é
+                { "{EDE9}", "ó" }, //ó
+                { "{EDE2}", "Á" }, //Á
+                { "{EDE4}", "Í" }, //Í
+                { "{EDE6}", "Ú" }, //Ú
+                { "{EDE8}", "É" }, //É
+                { "{EDEA}", "Ó" }, //Ó
+                { "{EDEE}", "¡" }, //¡
+                { "{EDEF}", "¿" }, //¿
+            };
             Dictionary<string, string> dicCC = new Dictionary<string, string>
             {
                 //Control Code Sanitation
@@ -65,36 +85,56 @@
                 { "{FF03}{FF02}", "<NT>" },
                 { "{FF81}", "<NAME>" },
                 { "{FF82}", "<SUBNAME>" },
-                { "{FF00}", "<END>" },
-                //Reverse
-                { "\n", "{FF01}" },
-                { "[", "{C7B7}" },
-                { "]", "{C7B8}" },
-                { "<BC>", "{FF19}" },
-                { "<WC>", "{FF16}" },
-                { "<NT>", "{FF03}{FF02}" },
-                { "<NAME>", "{FF81}" },
-                { "<SUBNAME>", "{FF82}" },
-                { "<END>", "{FF00}" },
+                { "{FF00}", "<END>" },                
             };
-            char[] dictArray = toPO.ToCharArray();
-            foreach (char c in dictArray)
+            
+            char[] dictArray = toPO.ToCharArray();            
+            
+            if (!reverse)
             {
-                if (dic.ContainsKey(c)) //If the dic has a char available in the string, replace it
+                foreach (char c in dictArray)
                 {
-                    dic.TryGetValue(c, out int a);
-                    var aByte = BitConverter.GetBytes((ushort)a);
-                    result += $"{{{aByte[1]:X2}{aByte[0]:X2}" + "}";
+                    if (dic.ContainsKey(c)) //If the dic has a char available in the string, replace it
+                    {
+                        dic.TryGetValue(c, out int a);
+                        var aByte = BitConverter.GetBytes((ushort)a);
+                        result += $"{{{aByte[1]:X2}{aByte[0]:X2}" + "}";
+                    }
+                    else //If not, just construct the string like normal
+                    {
+                        result += c;
+                    }
                 }
-                else //If not, just construct the string like normal
+                foreach (KeyValuePair<string, string> repl in dicR)
                 {
-                    result += c;
+                    result = result.Replace(repl.Key, repl.Value);
+                }
+                foreach (KeyValuePair<string, string> repl in dicCC)
+                {
+                    result = result.Replace(repl.Key, repl.Value);
                 }
             }
-            foreach (KeyValuePair<string, string> repl in dicCC)
+            else
             {
-                result = result.Replace(repl.Key, repl.Value);
+                foreach (char c in dictArray)
+                {
+                    if (dic.ContainsKey(c)) //If the dic has a char available in the string, replace it
+                    {
+                        dic.TryGetValue(c, out int a);
+                        var aByte = BitConverter.GetBytes((ushort)a);
+                        result += $"{{{aByte[1]:X2}{aByte[0]:X2}" + "}";
+                    }
+                    else //If not, just construct the string like normal
+                    {
+                        result += c;
+                    }
+                }
+                foreach (KeyValuePair<string, string> repl in dicCC)
+                {
+                    result = result.Replace(repl.Value, repl.Key);
+                }
             }
+            
             return result;
         }
 
@@ -140,7 +180,7 @@
 
         public void POExport(string toPO, int i)
         {
-            poYarhl.Add(new PoEntry(Dict(toPO)) { Context = i.ToString() });
+            poYarhl.Add(new PoEntry(Dict(toPO, false)) { Context = i.ToString() });
         }
 
         public void POWrite(string file)
@@ -179,14 +219,14 @@
 
                 for (int i = 0; i < header.entryCount - 1; i++)
                 {
-                    pointer = CCI(Dict(poInstance.Entries[i].Text)).Length + pointer;
+                    pointer = CCI(Dict(poInstance.Entries[i].Text, true)).Length + pointer;
                     bw.Write((ushort)pointer);
                 }
 
                 bw.BaseStream.Position = header.textOffset;
                 foreach (var entry in poInstance.Entries)
                 {
-                    bw.Write(CCI(Dict(entry.Text)));
+                    bw.Write(CCI(Dict(entry.Text, true)));
                 }
                 fs.SetLength(bw.BaseStream.Position);
             }
