@@ -54,15 +54,19 @@
                 { 0x00A1, 0xEDEE }, //¡
                 { 0x00BF, 0xEDEF }, //¿
             };
-            if (toPO.Contains("\n"))
-                toPO = toPO.Replace("\n", "{FF01}");
-            else
+            Dictionary<string, string> dicCC = new Dictionary<string, string>
             {
-                if (toPO.Contains("{FF01}"))
-                {
-                    toPO = toPO.Replace("{FF01}", "\n");
-                }
-            }            
+                //Control Code Sanitation
+                { "{FF01}", "\n" },
+                { "{C7B7}", "[" },
+                { "{C7B8}", "]" },
+                { "{FF19}", "<BC>" },
+                { "{FF16}", "<WC>" },
+                { "{FF03}{FF02}", "<NT>\n" },
+                { "{FF81}", "<NAME>" },
+                { "{FF82}", "<SUBNAME>" },
+                { "{FF00}", "<END>" },
+            };
             char[] dictArray = toPO.ToCharArray();
             foreach (char c in dictArray)
             {
@@ -76,6 +80,10 @@
                 {
                     result += c;
                 }
+            }
+            foreach (KeyValuePair<string, string> repl in dicCC)
+            {
+                result = result.Replace(repl.Key, repl.Value);
             }
             return result;
         }
