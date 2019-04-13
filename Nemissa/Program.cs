@@ -47,14 +47,9 @@
                         case ".eve":
                             if (Path.GetExtension(args[2]).ToLower() == ".po")
                                 poClass.POImport(args[1], args[2]);
-                            else
-                            {
-                                Console.WriteLine("ERROR: No PO files found");
-                                Console.ReadLine();
-                            }
                             break;
                         default:
-                            Console.WriteLine("ERROR: No EVE files found");
+                            Console.WriteLine("ERROR: No PO files found");
                             Console.ReadLine();
                             break;
                     }
